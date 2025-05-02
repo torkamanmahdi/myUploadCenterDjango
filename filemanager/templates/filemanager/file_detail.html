@@ -1,0 +1,60 @@
+{% extends 'filemanager/base.html' %}
+
+{% block title %}{{ file.title }} - Details{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>{{ file.title }}</h2>
+    </div>
+    <div class="card-body">
+        <p><strong>File Type:</strong> {{ file.file_type }}</p>
+        <p><strong>Upload Date:</strong> {{ file.upload_date }}</p>
+        
+        <div class="mb-4">
+            <h3>Share Links</h3>
+            <div class="input-group mb-3">
+                <span class="input-group-text">View URL</span>
+                <input type="text" class="form-control" value="{{ request.scheme }}://{{ request.get_host }}{% url 'file_view' file.unique_id %}" readonly>
+                <button class="btn btn-outline-secondary copy-btn" type="button" data-clipboard-text="{{ request.scheme }}://{{ request.get_host }}{% url 'file_view' file.unique_id %}">Copy</button>
+            </div>
+            <div class="input-group">
+                <span class="input-group-text">Download URL</span>
+                <input type="text" class="form-control" value="{{ request.scheme }}://{{ request.get_host }}{% url 'file_download' file.unique_id %}" readonly>
+                <button class="btn btn-outline-secondary copy-btn" type="button" data-clipboard-text="{{ request.scheme }}://{{ request.get_host }}{% url 'file_download' file.unique_id %}">Copy</button>
+            </div>
+        </div>
+        
+        <div class="d-flex gap-2">
+            <a href="{% url 'file_view' file.unique_id %}" class="btn btn-primary">View File</a>
+            <a href="{% url 'file_download' file.unique_id %}" class="btn btn-success">Download File</a>
+            <a href="{% url 'home' %}" class="btn btn-secondary">Upload Another File</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        new ClipboardJS('.copy-btn');
+        
+        const copyButtons = document.querySelectorAll('.copy-btn');
+        copyButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const originalText = this.textContent;
+                this.textContent = 'Copied!';
+                this.classList.add('btn-success');
+                this.classList.remove('btn-outline-secondary');
+                
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.classList.remove('btn-success');
+                    this.classList.add('btn-outline-secondary');
+                }, 2000);
+            });
+        });
+    });
+</script>
+{% endblock %}

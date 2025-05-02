@@ -1,0 +1,31 @@
+{% extends 'filemanager/base.html' %}
+
+{% block title %}Upload Center - Home{% endblock %}
+
+{% block content %}
+<div class="upload-form">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-center">Upload a File</h2>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="{{ form.title.id_for_label }}" class="form-label">Title</label>
+                    {{ form.title.errors }}
+                    <input type="text" name="{{ form.title.name }}" id="{{ form.title.id_for_label }}" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="{{ form.file.id_for_label }}" class="form-label">File</label>
+                    {{ form.file.errors }}
+                    <input type="file" name="{{ form.file.name }}" id="{{ form.file.id_for_label }}" class="form-control" required>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

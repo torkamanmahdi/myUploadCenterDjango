@@ -1,0 +1,56 @@
+{% extends 'filemanager/base.html' %}
+
+{% block title %}Download: {{ file.title }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>Download: {{ file.title }}</h2>
+    </div>
+    <div class="card-body text-center">
+        <div class="mb-4">
+            <h3>Your download will begin in <span id="countdown">10</span> seconds</h3>
+            <div class="progress mb-3">
+                <div id="progress-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" style="width: 0%"></div>
+            </div>
+            <p>Please wait while we prepare your download...</p>
+        </div>
+        
+        <div id="download-btn-container" class="d-none">
+            <a href="?download=true" class="btn btn-success btn-lg">Download Now</a>
+        </div>
+        
+        <div class="mt-4">
+            <a href="{% url 'file_detail' file.unique_id %}" class="btn btn-outline-secondary">Back to File Details</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const countdownElement = document.getElementById('countdown');
+        const progressBar = document.getElementById('progress-bar');
+        const downloadBtnContainer = document.getElementById('download-btn-container');
+        
+        let secondsLeft = 10;
+        
+        const countdownInterval = setInterval(function() {
+            secondsLeft--;
+            countdownElement.textContent = secondsLeft;
+            
+            // Update progress bar
+            const progressPercent = (10 - secondsLeft) * 10;
+            progressBar.style.width = progressPercent + '%';
+            
+            if (secondsLeft <= 0) {
+                clearInterval(countdownInterval);
+                countdownElement.textContent = '0';
+                progressBar.style.width = '100%';
+                downloadBtnContainer.classList.remove('d-none');
+            }
+        }, 1000);
+    });
+</script>
+{% endblock %}
