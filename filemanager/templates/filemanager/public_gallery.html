@@ -15,10 +15,10 @@
     <div class="row g-3">
         {% for file in files %}
             <div class="col-md-4">
-                <div class="card bg-dark border-secondary h-100">
+                <div class="card border-0 shadow-sm h-100">
                     <div class="card-body d-flex flex-column">
                         <h2 class="h6 mb-2">
-                            <a href="{% url 'file_detail' file.unique_id %}" class="text-white text-decoration-none">
+                            <a href="{% url 'file_detail' file.unique_id %}" class="text-decoration-none">
                                 {{ file.title }}
                             </a>
                         </h2>

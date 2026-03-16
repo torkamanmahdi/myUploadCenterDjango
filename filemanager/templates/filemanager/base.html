@@ -8,20 +8,21 @@
     <style>
         :root {
             --uc-primary: #2563eb;
-            --uc-primary-soft: rgba(37, 99, 235, 0.08);
-            --uc-bg: #0b1120;
-            --uc-surface: #020617;
-            --uc-border: rgba(148, 163, 184, 0.3);
-            --uc-text-main: #e5e7eb;
-            --uc-text-muted: #9ca3af;
+            --uc-primary-soft: rgba(37, 99, 235, 0.06);
+            --uc-bg: #f5f7fb;
+            --uc-surface: #ffffff;
+            --uc-border: rgba(148, 163, 184, 0.35);
+            --uc-text-main: #0f172a;
+            --uc-text-muted: #6b7280;
         }
 
         body {
             min-height: 100vh;
             margin: 0;
-            background: radial-gradient(circle at top left, #1d4ed8 0, transparent 55%),
-                        radial-gradient(circle at bottom right, #0ea5e9 0, transparent 55%),
-                        var(--uc-bg);
+            background:
+                radial-gradient(circle at top left, rgba(191, 219, 254, 0.9) 0, transparent 55%),
+                radial-gradient(circle at bottom right, rgba(219, 234, 254, 0.9) 0, transparent 55%),
+                var(--uc-bg);
             color: var(--uc-text-main);
             font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             display: flex;
@@ -35,8 +36,8 @@
         }
 
         .uc-nav-blur {
-            border-bottom: 1px solid var(--uc-border);
-            background: rgba(15, 23, 42, 0.78);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(18px);
         }
 
@@ -95,10 +96,9 @@
 
         .uc-hero-card {
             border-radius: 1.5rem;
-            border: 1px solid rgba(148, 163, 184, 0.3);
-            background: radial-gradient(circle at top, rgba(56, 189, 248, 0.12), transparent 55%),
-                        linear-gradient(to bottom right, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.98));
-            box-shadow: 0 22px 60px rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            background: radial-gradient(circle at top left, rgba(219, 234, 254, 0.8), #ffffff 55%);
+            box-shadow: 0 18px 55px rgba(15, 23, 42, 0.08);
             padding: 1.8rem 1.8rem 1.6rem;
         }
 
@@ -138,27 +138,27 @@
         .uc-upload-panel {
             padding: 1.25rem;
             border-radius: 1.25rem;
-            background: radial-gradient(circle at top left, var(--uc-primary-soft), transparent 65%),
-                        rgba(15, 23, 42, 0.9);
-            border: 1px solid rgba(148, 163, 184, 0.35);
+            background: radial-gradient(circle at top left, rgba(219, 234, 254, 0.6), #ffffff 70%);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            box-shadow: 0 18px 40px rgba(148, 163, 184, 0.18);
         }
 
         .uc-upload-dropzone {
             border-radius: 1rem;
-            border: 1px dashed rgba(148, 163, 184, 0.55);
+            border: 1px dashed rgba(148, 163, 184, 0.7);
             padding: 1.1rem 1rem;
-            background: rgba(15, 23, 42, 0.7);
+            background: rgba(248, 250, 252, 0.9);
         }
 
         .uc-upload-dropzone:hover {
             border-color: rgba(59, 130, 246, 0.75);
-            background: rgba(15, 23, 42, 0.9);
+            background: #ffffff;
         }
 
         .uc-upload-dropzone--active {
             border-color: rgba(59, 130, 246, 0.95);
-            background: rgba(15, 23, 42, 1);
-            box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.4);
+            background: #ffffff;
+            box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.35);
         }
 
         .uc-pill {
@@ -168,9 +168,9 @@
             padding: .2rem .6rem;
             border-radius: 999px;
             font-size: .7rem;
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(239, 246, 255, 0.95);
             color: var(--uc-text-muted);
-            border: 1px solid rgba(148, 163, 184, 0.4);
+            border: 1px solid rgba(191, 219, 254, 0.9);
         }
 
         .uc-metadata-pill {
@@ -191,8 +191,9 @@
         .uc-stat-card {
             padding: .7rem .75rem;
             border-radius: .9rem;
-            background: rgba(15, 23, 42, 0.85);
-            border: 1px solid rgba(148, 163, 184, 0.25);
+            background: #ffffff;
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            box-shadow: 0 10px 25px rgba(148, 163, 184, 0.15);
         }
 
         .uc-stat-label {
@@ -208,8 +209,9 @@
         .uc-secondary-panel {
             padding: 1.1rem 1.15rem;
             border-radius: 1.25rem;
-            background: rgba(15, 23, 42, 0.9);
-            border: 1px solid rgba(148, 163, 184, 0.3);
+            background: #ffffff;
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            box-shadow: 0 18px 40px rgba(148, 163, 184, 0.12);
         }
 
         .uc-secondary-row {
@@ -233,11 +235,11 @@
         }
 
         .uc-footer {
-            border-top: 1px solid rgba(148, 163, 184, 0.25);
+            border-top: 1px solid rgba(226, 232, 240, 0.9);
             padding: .9rem 1.25rem 1.25rem;
             font-size: .8rem;
             color: var(--uc-text-muted);
-            background: rgba(15, 23, 42, 0.96);
+            background: rgba(255, 255, 255, 0.96);
         }
 
         .uc-footer-inner {
@@ -256,18 +258,27 @@
 
         .form-control,
         .form-select {
-            background-color: rgba(15, 23, 42, 0.9);
-            border-radius: .7rem;
-            border-color: rgba(148, 163, 184, 0.6);
+            background-color: #ffffff;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.5);
             color: var(--uc-text-main);
             font-size: .9rem;
+            padding-inline: 1rem;
+            padding-block: .55rem;
+            min-height: 2.5rem;
+        }
+
+        textarea.form-control {
+            border-radius: 1rem;
+            min-height: 120px;
+            padding-block: .7rem;
         }
 
         .form-control:focus,
         .form-select:focus {
-            background-color: rgba(15, 23, 42, 1);
+            background-color: #ffffff;
             border-color: rgba(59, 130, 246, 0.9);
-            box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.35);
             color: var(--uc-text-main);
         }
 
@@ -285,16 +296,16 @@
 
         .btn-outline-light {
             border-radius: 999px;
-            border-color: rgba(148, 163, 184, 0.6);
+            border-color: rgba(148, 163, 184, 0.7);
             color: var(--uc-text-main);
             font-size: .8rem;
             padding-inline: .9rem;
         }
 
         .btn-outline-light:hover {
-            background-color: rgba(148, 163, 184, 0.12);
+            background-color: rgba(219, 234, 254, 0.5);
             border-color: rgba(148, 163, 184, 0.9);
-            color: #e5e7eb;
+            color: var(--uc-text-main);
         }
 
         @media (max-width: 900px) {
