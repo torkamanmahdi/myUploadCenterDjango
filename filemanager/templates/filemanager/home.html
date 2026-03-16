@@ -43,37 +43,52 @@
     <div class="col-lg-6">
         <div class="uc-upload-panel">
             <h2 class="h5 mb-3">Upload a new file</h2>
-            <form method="post" enctype="multipart/form-data">
+            <form method="post" enctype="multipart/form-data" id="uc-upload-form">
                 {% csrf_token %}
                 <div class="mb-3">
                     <label for="{{ form.title.id_for_label }}" class="form-label">Title</label>
                     {{ form.title }}
                     {{ form.title.errors }}
                 </div>
-                <div class="mb-3">
-                    <label for="{{ form.file.id_for_label }}" class="form-label">File</label>
-                    {{ form.file }}
-                    {{ form.file.errors }}
-                </div>
+
                 <div class="mb-3 form-check">
                     {{ form.is_public }}
                     <label class="form-check-label" for="{{ form.is_public.id_for_label }}">
                         Show in public gallery
                     </label>
                 </div>
-                <div class="uc-upload-dropzone mb-3">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="me-3">
-                            <div class="fw-semibold mb-1">Upload from your device</div>
-                            <div class="small text-muted">
-                                Max size: {{ upload_settings.max_file_size_mb }}MB &middot;
-                                Allowed: {{ upload_settings.allowed_extensions }}
+
+                <div class="mb-3">
+                    <label class="form-label">File</label>
+                    <input type="file" id="uc-file-input-proxy" class="d-none">
+                    <span class="d-none">
+                        {{ form.file }}
+                    </span>
+                    {{ form.file.errors }}
+
+                    <div class="uc-upload-dropzone mt-2" id="uc-dropzone">
+                        <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
+                            <div class="me-sm-3">
+                                <div class="fw-semibold mb-1" id="uc-dropzone-label">
+                                    Drag &amp; drop a file here, or click to browse
+                                </div>
+                                <div class="small text-muted">
+                                    Max size: {{ upload_settings.max_file_size_mb }}MB &middot;
+                                    Allowed: {{ upload_settings.allowed_extensions }}
+                                </div>
                             </div>
+                            <button type="button" class="btn btn-outline-light btn-sm" id="uc-browse-btn">
+                                Choose file
+                            </button>
                         </div>
-                        <button type="submit" class="btn btn-primary">
-                            Upload file
-                        </button>
                     </div>
+                    <div class="small text-muted mt-1" id="uc-selected-file"></div>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary">
+                        Upload file
+                    </button>
                 </div>
             </form>
         </div>
@@ -120,4 +135,71 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    (function () {
+        const form = document.getElementById('uc-upload-form');
+        const dropzone = document.getElementById('uc-dropzone');
+        const browseBtn = document.getElementById('uc-browse-btn');
+        const selectedFileLabel = document.getElementById('uc-selected-file');
+
+        if (!form || !dropzone) {
+            return;
+        }
+
+        const realInput = form.querySelector('input[type="file"]');
+
+        function setFile(file) {
+            try {
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                realInput.files = dataTransfer.files;
+                selectedFileLabel.textContent = file.name + ' (' + Math.round(file.size / 1024) + ' KB)';
+            } catch (e) {
+                selectedFileLabel.textContent = file.name;
+            }
+        }
+
+        browseBtn.addEventListener('click', function () {
+            realInput.click();
+        });
+
+        realInput.addEventListener('change', function () {
+            if (realInput.files && realInput.files.length > 0) {
+                setFile(realInput.files[0]);
+            } else {
+                selectedFileLabel.textContent = '';
+            }
+        });
+
+        ['dragenter', 'dragover'].forEach(function (eventName) {
+            dropzone.addEventListener(eventName, function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.add('uc-upload-dropzone--active');
+            });
+        });
+
+        ['dragleave', 'dragend', 'drop'].forEach(function (eventName) {
+            dropzone.addEventListener(eventName, function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.remove('uc-upload-dropzone--active');
+            });
+        });
+
+        dropzone.addEventListener('drop', function (e) {
+            const files = e.dataTransfer.files;
+            if (files && files.length > 0) {
+                setFile(files[0]);
+            }
+        });
+
+        dropzone.addEventListener('click', function () {
+            realInput.click();
+        });
+    })();
+</script>
 {% endblock %}
