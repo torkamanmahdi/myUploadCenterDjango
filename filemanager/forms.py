@@ -19,12 +19,22 @@ User = get_user_model()
 
 
 class SignUpForm(forms.ModelForm):
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput)
+    password1 = forms.CharField(
+        label='Password',
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Choose a password'}),
+    )
+    password2 = forms.CharField(
+        label='Confirm password',
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Repeat your password'}),
+    )
 
     class Meta:
         model = User
         fields = ('username', 'email')
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Your username'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'you@example.com'}),
+        }
 
     def clean_password2(self):
         password1 = self.cleaned_data.get('password1')
@@ -42,8 +52,23 @@ class SignUpForm(forms.ModelForm):
 
 
 class LoginForm(AuthenticationForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={'autofocus': True}))
-    password = forms.CharField(widget=forms.PasswordInput)
+    username = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'autofocus': True,
+                'class': 'form-control',
+                'placeholder': 'Username or email',
+            }
+        )
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(
+            attrs={
+                'class': 'form-control',
+                'placeholder': 'Password',
+            }
+        )
+    )
 
 
 class ForgotPasswordForm(PasswordResetForm):

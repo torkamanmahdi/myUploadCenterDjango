@@ -3,43 +3,67 @@
 {% block title %}Create account - Upload Center{% endblock %}
 
 {% block content %}
-<div class="col-lg-4 mx-auto">
-    <div class="card bg-dark border-secondary">
-        <div class="card-header">
-            <h1 class="h5 mb-0">Create account</h1>
-        </div>
-        <div class="card-body">
-            <form method="post" novalidate>
-                {% csrf_token %}
-                {{ form.non_field_errors }}
-                <div class="mb-3">
-                    <label class="form-label">Username</label>
-                    {{ form.username }}
-                    {{ form.username.errors }}
+<div class="d-flex justify-content-center">
+    <div class="col-md-5 col-lg-4">
+        <div class="card bg-dark border-secondary shadow-sm">
+            <div class="card-body p-4">
+                <div class="mb-3 text-center">
+                    <span class="uc-pill mb-2">Get started</span>
+                    <h1 class="h5 mb-1">Create your account</h1>
+                    <p class="small text-muted mb-0">Save your uploads and manage them later.</p>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    {{ form.email }}
-                    {{ form.email.errors }}
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Password</label>
-                    {{ form.password1 }}
-                    {{ form.password1.errors }}
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Confirm password</label>
-                    {{ form.password2 }}
-                    {{ form.password2.errors }}
-                </div>
-                <div class="d-grid mb-3">
-                    <button type="submit" class="btn btn-primary">Create account</button>
-                </div>
-            </form>
-            <p class="small text-muted mb-0">
-                Already have an account?
-                <a href="{% url 'login' %}" class="text-decoration-none">Sign in</a>.
-            </p>
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger py-2 small">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+                    <div class="mb-3">
+                        <label class="form-label small text-uppercase text-muted">Username</label>
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.username.errors|striptags }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-uppercase text-muted">Email</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.email.errors|striptags }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-uppercase text-muted">Password</label>
+                        {{ form.password1 }}
+                        {% if form.password1.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.password1.errors|striptags }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label small text-uppercase text-muted">Confirm password</label>
+                        {{ form.password2 }}
+                        {% if form.password2.errors %}
+                            <div class="text-danger small mt-1">
+                                {{ form.password2.errors|striptags }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="d-grid mb-3">
+                        <button type="submit" class="btn btn-primary w-100">Create account</button>
+                    </div>
+                </form>
+                <p class="small text-muted text-center mb-0">
+                    Already have an account?
+                    <a href="{% url 'login' %}" class="text-decoration-none">Sign in</a>.
+                </p>
+            </div>
         </div>
     </div>
 </div>

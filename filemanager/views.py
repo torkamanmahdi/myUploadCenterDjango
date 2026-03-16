@@ -4,6 +4,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.db.models import Sum
+from django.db import OperationalError
 from .models import UploadedFile, UploadCenterSettings
 from .forms import (
     UploadFileForm,
@@ -15,9 +16,29 @@ import mimetypes
 
 
 def _get_upload_settings():
-    settings_obj = UploadCenterSettings.objects.first()
+    """
+    Return upload settings instance or a safe in-memory fallback.
+    This keeps the app working even before migrations are applied.
+    """
+    try:
+        settings_obj = UploadCenterSettings.objects.first()
+    except OperationalError:
+        class Fallback:
+            max_file_size_mb = 50
+            allowed_extensions = 'jpg,jpeg,png,gif,mp4,mp3,pdf'
+
+        return Fallback()
+
     if not settings_obj:
-        settings_obj = UploadCenterSettings.objects.create()
+        try:
+            settings_obj = UploadCenterSettings.objects.create()
+        except OperationalError:
+            class Fallback:
+                max_file_size_mb = 50
+                allowed_extensions = 'jpg,jpeg,png,gif,mp4,mp3,pdf'
+
+            return Fallback()
+
     return settings_obj
 
 
