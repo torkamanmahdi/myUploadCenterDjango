@@ -1,0 +1,39 @@
+{% extends 'filemanager/base.html' %}
+
+{% block title %}Sign in - Upload Center{% endblock %}
+
+{% block content %}
+<div class="col-lg-4 mx-auto">
+    <div class="card bg-dark border-secondary">
+        <div class="card-header">
+            <h1 class="h5 mb-0">Sign in</h1>
+        </div>
+        <div class="card-body">
+            <form method="post" novalidate>
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    {{ form.username }}
+                    {{ form.username.errors }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    {{ form.password }}
+                    {{ form.password.errors }}
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <a href="{% url 'password_reset' %}" class="small text-muted">Forgot password?</a>
+                </div>
+                <div class="d-grid mb-3">
+                    <button type="submit" class="btn btn-primary">Sign in</button>
+                </div>
+            </form>
+            <p class="small text-muted mb-0">
+                Need an account?
+                <a href="{% url 'signup' %}" class="text-decoration-none">Create one</a>.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

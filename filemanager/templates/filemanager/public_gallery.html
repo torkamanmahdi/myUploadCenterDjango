@@ -1,0 +1,45 @@
+{% extends 'filemanager/base.html' %}
+
+{% block title %}Public Gallery - Upload Center{% endblock %}
+
+{% block content %}
+<div class="mb-4 d-flex justify-content-between align-items-center">
+    <div>
+        <h1 class="h5 mb-1">Public gallery</h1>
+        <p class="small text-muted mb-0">Files that were marked as public by their owners.</p>
+    </div>
+    <a href="{% url 'home' %}" class="btn btn-outline-light btn-sm">Back to home</a>
+</div>
+
+{% if files %}
+    <div class="row g-3">
+        {% for file in files %}
+            <div class="col-md-4">
+                <div class="card bg-dark border-secondary h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h2 class="h6 mb-2">
+                            <a href="{% url 'file_detail' file.unique_id %}" class="text-white text-decoration-none">
+                                {{ file.title }}
+                            </a>
+                        </h2>
+                        <p class="small text-muted mb-2">
+                            {{ file.file_type|title }} &middot; {{ file.upload_date|date:"M j, Y" }}
+                        </p>
+                        <p class="small text-muted mb-3">
+                            {{ file.view_count }} views &middot; {{ file.download_count }} downloads
+                        </p>
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <a href="{% url 'file_view' file.unique_id %}" class="btn btn-sm btn-primary">View</a>
+                            <a href="{% url 'file_download' file.unique_id %}" class="btn btn-sm btn-outline-light">Download</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-dark border-secondary">
+        No public files yet. Upload a file and mark it as public to show it here.
+    </div>
+{% endif %}
+{% endblock %}

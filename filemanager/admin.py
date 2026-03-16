@@ -1,8 +1,6 @@
 from django.contrib import admin
-from django.db.models import FileField
 from django.utils.html import format_html
-from .models import UploadedFile
-import os
+from .models import UploadedFile, SiteThemeSettings, UploadCenterSettings
 
 class FileSizeFilter(admin.SimpleListFilter):
     title = 'File Size'
@@ -23,12 +21,21 @@ class FileSizeFilter(admin.SimpleListFilter):
         if self.value() == 'large':
             return queryset.filter(file__size__gte=10*1024*1024)
 
-@admin.register(UploadedFile)
 class UploadedFileAdmin(admin.ModelAdmin):
-    list_display = ('title', 'file_type', 'upload_date', 'get_file_size', 'file_preview')
-    list_filter = ('file_type', 'upload_date', FileSizeFilter)
-    search_fields = ('title', 'file_type')
-    readonly_fields = ('file_type', 'unique_id', 'get_file_size', 'file_preview')
+    list_display = (
+        'title',
+        'owner',
+        'file_type',
+        'is_public',
+        'upload_date',
+        'view_count',
+        'download_count',
+        'get_file_size',
+        'file_preview',
+    )
+    list_filter = ('file_type', 'is_public', 'upload_date', FileSizeFilter)
+    search_fields = ('title', 'file_type', 'owner__username')
+    readonly_fields = ('file_type', 'unique_id', 'get_file_size', 'file_preview', 'view_count', 'download_count')
     date_hierarchy = 'upload_date'
     
     def get_file_size(self, obj):
@@ -55,6 +62,18 @@ class UploadedFileAdmin(admin.ModelAdmin):
             return format_html('<audio controls><source src="{}"></audio>', obj.file.url)
         elif obj.file_type == 'pdf':
             return format_html('<a href="{}" target="_blank">View PDF</a>', obj.file.url)
-        else:
-            return format_html('<a href="{}" target="_blank">Download File</a>', obj.file.url)
+        return format_html('<a href="{}" target="_blank">Download File</a>', obj.file.url)
     file_preview.short_description = 'Preview'
+
+
+admin.site.register(UploadedFile, UploadedFileAdmin)
+
+
+@admin.register(SiteThemeSettings)
+class SiteThemeSettingsAdmin(admin.ModelAdmin):
+    list_display = ('brand_name', 'primary_color', 'accent_color')
+
+
+@admin.register(UploadCenterSettings)
+class UploadCenterSettingsAdmin(admin.ModelAdmin):
+    list_display = ('max_file_size_mb', 'allowed_extensions')

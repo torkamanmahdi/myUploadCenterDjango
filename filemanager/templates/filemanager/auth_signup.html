@@ -1,0 +1,46 @@
+{% extends 'filemanager/base.html' %}
+
+{% block title %}Create account - Upload Center{% endblock %}
+
+{% block content %}
+<div class="col-lg-4 mx-auto">
+    <div class="card bg-dark border-secondary">
+        <div class="card-header">
+            <h1 class="h5 mb-0">Create account</h1>
+        </div>
+        <div class="card-body">
+            <form method="post" novalidate>
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    {{ form.username }}
+                    {{ form.username.errors }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    {{ form.password1 }}
+                    {{ form.password1.errors }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Confirm password</label>
+                    {{ form.password2 }}
+                    {{ form.password2.errors }}
+                </div>
+                <div class="d-grid mb-3">
+                    <button type="submit" class="btn btn-primary">Create account</button>
+                </div>
+            </form>
+            <p class="small text-muted mb-0">
+                Already have an account?
+                <a href="{% url 'login' %}" class="text-decoration-none">Sign in</a>.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

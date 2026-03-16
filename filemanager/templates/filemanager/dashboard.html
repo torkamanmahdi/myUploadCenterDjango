@@ -1,0 +1,62 @@
+{% extends 'filemanager/base.html' %}
+
+{% block title %}My Files - Upload Center{% endblock %}
+
+{% block content %}
+<div class="mb-4 d-flex justify-content-between align-items-center">
+    <div>
+        <h1 class="h5 mb-1">My files</h1>
+        <p class="small text-muted mb-0">Manage the files you have uploaded.</p>
+    </div>
+    <a href="{% url 'home' %}" class="btn btn-outline-light btn-sm">Upload new file</a>
+</div>
+
+{% if files %}
+    <div class="table-responsive">
+        <table class="table table-dark table-sm align-middle">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Public</th>
+                    <th>Views</th>
+                    <th>Downloads</th>
+                    <th>Uploaded</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for file in files %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'file_detail' file.unique_id %}" class="text-white text-decoration-none">
+                                {{ file.title }}
+                            </a>
+                        </td>
+                        <td class="small text-muted">{{ file.file_type }}</td>
+                        <td class="small">
+                            {% if file.is_public %}
+                                <span class="badge bg-success">Public</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Private</span>
+                            {% endif %}
+                        </td>
+                        <td class="small">{{ file.view_count }}</td>
+                        <td class="small">{{ file.download_count }}</td>
+                        <td class="small text-muted">{{ file.upload_date|date:"M j, Y H:i" }}</td>
+                        <td class="text-end">
+                            <a href="{% url 'file_view' file.unique_id %}" class="btn btn-sm btn-outline-light">View</a>
+                            <a href="{% url 'file_download' file.unique_id %}" class="btn btn-sm btn-outline-light">Download</a>
+                            <a href="{% url 'delete_file' file.unique_id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div class="alert alert-dark border-secondary">
+        You have not uploaded any files yet.
+    </div>
+{% endif %}
+{% endblock %}
