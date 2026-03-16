@@ -97,7 +97,7 @@ Open `http://127.0.0.1:8000/` in your browser to access the upload center.
 
 ### Admin configuration
 
-Log in to `http://127.0.0.1:8000/admin/` with your superuser account.
+Log in to `http://127.0.0.1:8000/admin-manager/` with your superuser account.
 
 - **Theme settings (`SiteThemeSettings`)**:
   - Configure brand name, colors, and (optionally) upload a logo.

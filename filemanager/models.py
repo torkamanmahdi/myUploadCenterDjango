@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 import uuid
 import os
 
@@ -8,9 +9,14 @@ User = get_user_model()
 
 
 def get_file_path(instance, filename):
+    """
+    Build upload path as uploads/<year>/<month>/<uuid>.<ext>
+    Example: uploads/2026/03/uuid.ext
+    """
+    now = timezone.now()
     ext = filename.split('.')[-1]
     filename = f"{uuid.uuid4()}.{ext}"
-    return os.path.join('uploads', filename)
+    return os.path.join('uploads', f"{now.year:04d}", f"{now.month:02d}", filename)
 
 
 class UploadedFile(models.Model):
